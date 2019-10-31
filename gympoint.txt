@@ -1,0 +1,309 @@
+---------------------------------------------------------------------------------------------------
+					Inicializando aplicacao
+---------------------------------------------------------------------------------------------------
+: mkdir nome_app
+: cd nome _app
+: yarn init -y
+: yarn express
+: code .
+
+-> Dentro da home da aplicacao criar
+	/src
+	/src/app.js
+	/src/routes.js
+	/src/server.js
+
+
+Inicar por app.js:
+	1. Criar uma classe App com seu respectivo constructor e middlewares
+		a) middleware para setar utilizacao de objetos JSON
+		b) routes apontando para routes
+		OBS: importar 'express' e './routes'
+	2. Exportar somente o server, unico metodo que faz sentido fora da app
+
+server.js:
+	1. Importar a classe App criada em app.js
+	2. Setar a porta que a aplicacao ira escutar
+
+routes.js:
+	1. Importar { Routes } do express
+	2. criar uma variavel routes instanciando new Router
+	3. criar primeira rota
+
+OBS: Testar se tudo estiver OK, cria uma rota com metodo get hello world
+start com :node /src/server.js (porem so funciona se estiver usando const e require
+nao com import from.
+
+Adicionar pacotes para mudar a sintaxe para import->from: Nomemon e Sucrase
+: yarn add sucrase nodemon -D
+
+: yarn sucrase-node src/server.js ( para startar e conferir o hello world)
+Porem eh necessario configurar no Nomemon tambem (hot reload).
+
+
+Configurando package.json:
+	1. Adicionar os "scripts"
+	2. Se colocar somente "dev": "nodemon src/server.js" tambem nao vai funcionar
+	porque ainda nao esta setado para uso do sucrase.
+	3. Criar na raiz do App o arquivo 'nodemon.json'
+	4. criar um objeto da seguinte maneira
+		{
+		  "execMap": {
+		    "js": "node -r sucrase/register"
+		  }
+		}
+	o -r significa executar um arquivo antes de executar a aplicacao no caso do app
+	sucrase/register.
+
+*** Realizada configuracao do package.json e nomemon.json pode-se startar o servidor com :yarn dev
+
+
+OBS: Lembrar de mudar as configuracoes no debug da aplicacao tambem.
+	1. Em package.json criar mais script -> "dev:debug": "nodemon --inspect src/server.js
+	2. :yarn dev:debug
+	3. No debug vai em settings e muda a request do launch.json
+		a) "request": "launch" -> "request": "attach"
+		b) Retirar o program
+		c) mudar o protocol para inspect -> "protocol": "inspector"
+
+
+---------------------------------------------------------------------------------------------------
+				ESLint + Prettier + EditorConfig
+---------------------------------------------------------------------------------------------------
+Ferramentas para padronizacao de codigo.
+
+*** ESLint
+	Terminal:
+	: yarn add eslint -D
+	: yarn eslint --init
+
+	1. O comando acima abre um monte de perguntas para configuracao do ESLint, escolher as que se adaptam
+	ao seu projeto e seguir em frente.
+
+	2. Remover o arquivo que sera criado: "package-lock.json" porque a aplicacao esta usando
+	apenas YARN e nao NPM.
+
+	3. Entao rodar 'yarn' na pasta do projeto para ele fazer o mapeamento das novas
+	dependencias no yarn.lock.
+
+	4. O comando yarn na pasta do projeto gera um arquivo chamado
+				'.eslintrc.js'
+	Onde sao feitas as  principais configuracoes do ESLint.
+
+	5. Instalar a extensao ESLint no VSCode. (Conferir o settings.json do VSCode)
+
+	6. Feito os passos ate aqui qualquer aquivo ".js" que for aberto ja ira apresentar alguns erros
+	de formatacao.
+
+	7. Setar um conjunto de regras no ESLint
+		  rules: {
+		    "class-method-use-this": "off",
+		    "no-param-reassign": "off",
+		    "camelcase": "off",
+		    "no-unused-vars": ["error", { "argsIgnorePttern": "next"}]
+		  },
+
+*** Prettier
+
+	: yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+
+	1. Abrir novamente .eslintrc.js e adicionar o parametro 'prettier' no extends
+	2. Adicionar a propriedade plugins: ['prettier'], no mesmo arquivo
+	3. Adicionar "prettier/prettier": "error", como nova regra
+
+	OBS: Problema das regras duplicadas
+	-Criar arquivo '.prettierrc' mudar o plain text para json e adicionar:
+		{
+		  "singleQuote": true,
+		  "tralingComma": "es5"
+		}
+
+	Para fazer um fix automatico em todos os arquivos -> : yarn eslint --fix src --ext .js
+
+
+*** EditorConfig
+	1. Instalar plugin do VSCode
+	2. Botao direito na raiz do projeto 'Generate .editorconfig'
+	3. Trocar de false para true!
+		trim_trailing_whitespace = true
+		insert_final_newline = true
+
+
+---------------------------------------------------------------------------------------------------
+				SEQUELIZE
+---------------------------------------------------------------------------------------------------
+
+1. Dentro da pasta /src criar a pasta config e database e app:
+	/src
+
+	*** config
+	/src/config
+	/src/config/database.js -> configuracoes do banco de dados
+
+	*** database
+	/src/database
+	/src/database/migrations
+
+	*** app
+	/src/app -> onde vai ficar basicamente todas as regras de negocio, logica...
+
+	/src/app/controllers
+	/src/app/models
+
+---
+Instalar
+: yarn add sequelize
+: yarn add sequelize-cli -D
+: yarn add pg pg-hstore
+
+2. Criar arquivo '.sequelizerc' e transformar na sintaxe de JS. E ele basicamente vai exportar
+os caminhos onde estar os arquivos e pastas criados.
+
+	const { resolve } = require('path')
+
+	module.exports = {
+	  config: resolve(__dirname, 'src', 'config', 'database.js'),
+	  'models-path': resolve(__dirname, 'src', 'app', 'models'),
+	  'migrations-path': resolve(__dirname, 'src', 'database', 'migrations'),
+	  'seeders-path': resolve(__dirname, 'src', 'database', 'seeds'),
+	};
+
+3. Abrir o arquivo de configuracao do banco de dados /src/config/database.js
+	module.exports = {
+	  dialect: 'postgres',
+	  host: 'localhost',
+	  username: 'postgress',
+	  password: 'docker',
+	  database: 'gobarber',
+	  define: {
+	    timestamps: true,
+	    underscored: true,
+	    underscoredAll: true
+	  }
+	};
+
+
+OBS: Startar DOCKER!!!! E criar um database!!!
+
+
+
+
+---------------------------------------------------------------------------------------------------
+				FUNCIONALIDADES
+---------------------------------------------------------------------------------------------------
+
+				#### Autenticacao ###
+
+Para continuar deve-se instalar uma biblioteca 'bcryptjs' para criptografia hash da password do admin.
+: yarn add bcryptjs
+
+Permita que um usuário se autentique em sua aplicação utilizando e-mail e uma senha.
+
+Crie um usuário administrador utilizando a funcionalidade de seeds do sequelize, essa
+funcionalidade serve para criarmos registros na base de dados de forma automatizada.
+
+// Para criar o usuario administrador utilizando seeds eh necessario que a tabela ja esteja criada
+portanto
+
+  : yarn sequelize migration:create --name=create-users
+
+editar a migration com os campos corredos e entao
+
+  : yarn sequelize db:migrate
+
+Agora estamos prontos para criar o seed:
+Para criar um seed utilize o comando:
+
+  : yarn sequelize seed:generate --name admin-user
+editar o seed e:
+  : yarn sequelize db:seed:all
+
+Agora você tem um usuário na sua base de dados, utilize esse usuário para todos logins daqui pra frente.
+
+A autenticação deve ser feita utilizando JWT.
+Realize a validação dos dados de entrada;
+
+
+      ### Cadastro de Alunos ###
+
+2. Cadastro de alunos
+Permita que alunos sejam mantidos (cadastrados/atualizados) na aplicação utilizando nome, email, idade, peso e altura.
+
+Utilize uma nova tabela no banco de dados chamada students.
+
+O cadastro de alunos só pode ser feito por administradores autenticados na aplicação.
+
+O aluno não pode se autenticar no sistema, ou seja, não possui senha.
+
+: yarn sequelize migration:create --name=create-students
+: yarn sequelize db:migrate
+
+
+3. Criar Models (User, Student)
+
+  import { Model } from 'sequelize';
+
+  class User extends Model {
+    static init(sequelize){
+      super.init({
+       -> Aqui vai os campos da tabela que nao sao chaves primarias, ou created at..
+      });
+    }
+  }
+
+
+4. Criar loader (Arquivo que realiza a conexao com o banco de dados)
+Criar arquivo index.js na pasta database
+
+              /src/database/index.js
+  4.1 Importar Sequelize
+  4.2 Importar models
+  4.3 Importar databaseconfigs
+  4.4 Criar um array com todos os models da aplicacao
+  4.5 exportar modelo
+
+
+5. Criar Controllers (Session Controller)
+  5.1 Instalar :yarn add jsonwebtoken para Autenticacao
+
+  Realizer a requisicao de email e senha, e entao verificar se email existe
+  e se a senha coincide.
+  OBS: A validacao da senha pode ser feita no proprio model
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

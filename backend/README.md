@@ -1,2 +1,0 @@
-### GYMPOINT
-# Atualizacoes a seguir
