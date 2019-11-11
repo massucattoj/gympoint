@@ -270,8 +270,12 @@ Criar arquivo index.js na pasta database
   e se a senha coincide.
   OBS: A validacao da senha pode ser feita no proprio model
 
+  5.2 separar a chave do md5 e o expireIn em um arquivo separado no config/auth.js
+  Chave do MD5 online gympointmassucatto
 
-
+6. Criar middleware de Autenticacao
+  6.1 New Folder -> app/middlewares
+  6.2 New file -> app/middlewares/auth.js
 
 
 

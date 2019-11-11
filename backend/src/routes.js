@@ -2,12 +2,13 @@
   Rotas da aplicacao GymPoint
 */
 import { Router } from 'express';
-import User from './app/models/User';
+
 import SessionController from './app/controllers/SessionController';
+import StudentController from './app/controllers/StudentController';
 
 const routes = new Router();
 
 routes.post('/sessions', SessionController.store);
-routes.get('/', (req, res) => res.json({ message: 'hello world' }));
+routes.post('/students', StudentController.store);
 
 export default routes;

@@ -16,6 +16,7 @@ class User extends Model {
       }
     );
 
+    // antes de qualquer usuario ser salvo no banco de dados esse trecho de codigo e executado
     this.addHook('beforeSave', async user => {
       if (user.password) {
         user.password_hash = await bcrypt.hash(user.password, 8);
@@ -25,7 +26,7 @@ class User extends Model {
     return this;
   }
 
-  /* Verificar se senhas sao as mesmas */
+  /* Verificar se senhas  que o user esta usando para logar e a mesma armazenada no banco */
   checkPassword(password) {
     return bcrypt.compare(password, this.password_hash);
   }
