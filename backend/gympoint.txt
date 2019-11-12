@@ -276,7 +276,13 @@ Criar arquivo index.js na pasta database
 6. Criar middleware de Autenticacao
   6.1 New Folder -> app/middlewares
   6.2 New file -> app/middlewares/auth.js
+      Ctrl no metodo para abrir as opcoes
+      6.2.1 Importa promisify, pega uma funcao de callback e transforma em async await
 
+  6.3 Pegar token do administrador e enviar pelo Header ou Auth (insomnia)
+      Bearer token.
+
+  6.4 importar middleware nas rotas
 
 
 
