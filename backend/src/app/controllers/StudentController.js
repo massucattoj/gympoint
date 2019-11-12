@@ -1,8 +1,20 @@
+import * as Yup from 'yup';
 import Student from '../models/Student';
 
 class StudentController {
   // cadastro de usuario
   async store(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string()
+        .email()
+        .required()
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation Fails' });
+    }
+
     // verificar se ja existe email cadastrado
     const studentExists = await Student.findOne({
       where: { email: req.body.email }
@@ -28,10 +40,22 @@ class StudentController {
   }
 
   async update(req, res) {
-    const { name, email, idade, peso, altura } = req.body;
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      email: Yup.string().email()
+    });
 
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation Fails' });
+    }
+
+    const { id } = req.params;
+    const { email } = req.body;
     // encontrar usuario que sera editado
-    const student = await Student.findByPk(req.params);
+    const student = await Student.findByPk(id);
+    if (!student) {
+      return res.status(400).json({ error: 'Student does not exist.' });
+    }
 
     // verificar se o email ja nao existe
     // porem primeiro verificar se o usuario esta mudando de fato o email
@@ -43,8 +67,15 @@ class StudentController {
       }
     }
 
-    await student.update(req.body);
-    return res.json(student);
+    const { name, idade, peso, altura } = await student.update(req.body);
+    return res.json({
+      id,
+      name,
+      email,
+      idade,
+      peso,
+      altura
+    });
   }
 }
 

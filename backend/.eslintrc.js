@@ -21,6 +21,7 @@ module.exports = {
     "class-methods-use-this": "off",
     "no-param-reassign": "off",
     "camelcase": "off",
-    "no-unused-vars": ["error", { "argsIgnorePttern": "next"}]
+    "no-unused-vars": ["error", { "argsIgnorePttern": "next"}],
+    "import/no-extraneous-dependencies": 0,
   },
 };

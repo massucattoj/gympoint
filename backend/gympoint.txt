@@ -285,6 +285,9 @@ Criar arquivo index.js na pasta database
   6.4 importar middleware nas rotas
 
 
+Instalar Yup -> Biblioteca de Schema Validation
+  :yarn add yup
+
 
 
 
