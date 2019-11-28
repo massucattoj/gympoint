@@ -290,6 +290,35 @@ Instalar Yup -> Biblioteca de Schema Validation
 
 
 
+########################################
+  DESAFIO 03
+########################################
+
+### --> FUNCIONALIDADES ADMINISTRADOR
+
+-> Gestao de Planos!
+
+  1. Criar migrations
+    :yarn sequelize migration:create --name=create-plans
+
+  2. Tipo da variavel 'price', optei por decimal, pareceu ser a mais viavel
+  https://rietta.com/blog/postgresql-currency-types/
+  https://sequelize.readthedocs.io/en/2.0/api/datatypes/
+  https://sequelize.org/master/manual/data-types.html
+
+  user: postgres
+  pass: torresmo
+  port: 5432
+
+  :yarn sequelize db:migrate
+
+  2. Criar model
+  3. Criar controladora (CRUD)
+    Importar Yup para validacao de entrada de dados
+
+
+
+
 
 
 
