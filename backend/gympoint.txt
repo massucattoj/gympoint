@@ -313,8 +313,11 @@ Instalar Yup -> Biblioteca de Schema Validation
   :yarn sequelize db:migrate
 
   2. Criar model
-  3. Criar controladora (CRUD)
+  3. Criar loader (database/index.js)
+  4. Criar controladora (CRUD)
     Importar Yup para validacao de entrada de dados
+
+
 
 
 

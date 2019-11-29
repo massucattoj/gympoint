@@ -20,5 +20,7 @@ routes.put('/students/:id', StudentController.update); // edit user
 
 // plans
 routes.post('/plan', PlanController.store); // create plan
-
+routes.get('/plans', PlanController.index); // show plans
+routes.put('/plans/:id', PlanController.update); // update plan
+routes.delete('/plans/:id', PlanController.delete); // delete plan
 export default routes;
