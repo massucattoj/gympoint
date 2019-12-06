@@ -52,18 +52,26 @@ class PlanController {
     /**
      * Update Plans info
      */
-    const { title } = req.body;
-    const plan = await Plan.findByPk(req.params.id);
+    const schema = Yup.object().shape({
+      title: Yup.string(),
+      duration: Yup.number().integer(),
+      price: Yup.number()
+    });
 
-    // if change title
-    if (title !== plan.title) {
-      const titleExists = await Plan.findOne({ where: { title } });
-
-      if (titleExists) {
-        return res.status(400).json({ error: 'This plan already exists.' });
-      }
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ error: 'Validation fails - Cannot Update!' });
     }
 
+    const { title } = req.body;
+    const titleExists = await Plan.findOne({ where: { title } });
+
+    if (titleExists) {
+      return res.status(400).json({ error: 'This plan already exists.' });
+    }
+
+    const plan = await Plan.findByPk(req.params.id);
     const { id, duration, price } = await plan.update(req.body); // update all the fields
 
     return res.json({
