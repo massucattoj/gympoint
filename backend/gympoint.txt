@@ -317,8 +317,21 @@ Instalar Yup -> Biblioteca de Schema Validation
   4. Criar controladora (CRUD)
     Importar Yup para validacao de entrada de dados
 
+-> Gestao de Matriculas
+  1. Criar migrations
+    :yarn sequelize migration:create --name=create-enrollments
+    obs: criar as referencias para tabela de students e plans
 
+    :yarn sequelize db:migrate
 
+  2. Criar Model
+  3. Carregar model no loader
+  4. Criar novo .map no loader para as asssociacoes
+  5. Criar controladora
+
+  OBS: Erro com map.associate -> Verificar todos os models se contem return this;
+
+  :yarn add date-fns@next
 
 
 

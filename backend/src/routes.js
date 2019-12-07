@@ -6,6 +6,7 @@ import { Router } from 'express';
 import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
+import EnrollmentController from './app/controllers/EnrollmentController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -23,4 +24,8 @@ routes.post('/plan', PlanController.store); // create plan
 routes.get('/plans', PlanController.index); // show plans
 routes.put('/plans/:id', PlanController.update); // update plan
 routes.delete('/plans/:id', PlanController.delete); // delete plan
+
+// enrollments
+routes.post('/enrollment', EnrollmentController.store); // create enrollment
+
 export default routes;

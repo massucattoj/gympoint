@@ -64,15 +64,19 @@ class PlanController {
         .json({ error: 'Validation fails - Cannot Update!' });
     }
 
-    const { title } = req.body;
-    const titleExists = await Plan.findOne({ where: { title } });
+    // Check with plan title already exists
+    if (req.body.title) {
+      const titleExists = await Plan.findOne({
+        where: { title: req.body.title }
+      });
 
-    if (titleExists) {
-      return res.status(400).json({ error: 'This plan already exists.' });
+      if (titleExists) {
+        return res.status(400).json({ error: 'This plan already exists.' });
+      }
     }
 
     const plan = await Plan.findByPk(req.params.id);
-    const { id, duration, price } = await plan.update(req.body); // update all the fields
+    const { id, title, duration, price } = await plan.update(req.body); // update all the fields
 
     return res.json({
       id,
