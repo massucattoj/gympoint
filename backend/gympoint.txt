@@ -333,6 +333,78 @@ Instalar Yup -> Biblioteca de Schema Validation
 
   :yarn add date-fns@next
 
+  # CRUD Matriculas.
+    1.1 Create - Lembrar de validar e verificar os dados de entrada.
+
+      1.1.1 - Envio de emails.
+
+                :yarn add nodemailer
+
+              config/mail.js -> configuracao do protocolo SMTP para envio de emails
+
+              src/lib/Mail.js -> Configurar a classe do Mail, metodo constructor, funcao transporter
+
+              OBS: alguns servicos de email nao possuem usuario, portanto utiliza-se
+                auth: auth.user ? auth : null
+              se possuir usuario retorna auth (que contem user e pass) se nao retorna null.
+
+              Metodo sendMail (responsavel por enviar email)
+
+      1.1.2 - Configurar template de emails
+              Instalar duas extencoes de 'template-engine' -> Arquivos html que podem receber
+              variaveis do node.
+
+              :yarn add express-handlebars nodemailer-express-handlebars
+
+              importar as duas bibliotecas no Mail.js
+
+              importar o metodo 'resolve' do 'path' para percorrer ate o diretorio aonde estarao
+              os templates de email.
+
+
+              /src/app/views
+              /src/app/views/layouts (diretorio)
+              /src/app/views/layouts/default.hbs
+              /src/app/views/partials (diretorio)
+              /src/app/views/partials/footer.hbs
+              /src/app/views/enrollment.hbs (file)
+
+
+              - Criar metodo 'configureTemplates' (recebe o path pro arquivo onde estara salvo
+              o template do email)
+
+              const viewPath = resolve(__dirname, '..', 'app', 'views', 'emails');
+
+              this.transporter.use('compile') -> Como serao compilados os emails
+
+                configureTemplates() {
+
+              const viewPath = resolve(__dirname, '..', 'app', 'views', 'emails');
+
+              # CONFIGURANDO TEMPLATE PADRAO #
+              this.transporter.use(
+                'compile',
+                nodemailerhbs({
+                  viewEngine: exphbs.create({
+                    layoutsDir: resolve(viewPath, 'layouts'),
+                    partialsDir: resolve(viewPath, 'partials'),
+                    defaultLayout: 'default',
+                    extname: '.hbs'
+                  }),
+                  viewPath,
+                  extName: '.hbs'
+                })
+              );
+
+              -> Editar arquivo default.hbs
+              -> Retornar a controladora e configurar os campos que serao enviados para o template
+              -> OBS: lembrar de importar o locale/pt e o 'formmat'
+
+
+
+      1.1.3 - Configurando Redis
+
+
 
 
 
