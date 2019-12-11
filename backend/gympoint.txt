@@ -398,7 +398,7 @@ Instalar Yup -> Biblioteca de Schema Validation
 
               -> Editar arquivo default.hbs
               -> Retornar a controladora e configurar os campos que serao enviados para o template
-              -> OBS: lembrar de importar o locale/pt e o 'formmat'
+              -> OBS: lembrar de importar o locale/pt e o 'format'
 
 
 
