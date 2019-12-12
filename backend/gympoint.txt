@@ -401,7 +401,28 @@ Instalar Yup -> Biblioteca de Schema Validation
               -> OBS: lembrar de importar o locale/pt e o 'format'
 
 
-      1.1.3 - Configurando Redis
+      1.1.3 - Configurando Redis (nao travar nos emails)
+        -> Banco chave - valor
+
+          :docker run --name redisgympoint -p 6379:6379 -d -t redis:alpine
+
+        -> Instalar 'bee queue' -> sistema de filas.
+        https://github.com/bee-queue/bee-queue
+
+        OBS: Se tiver filas com prioridade melhor usar Kue
+
+          :yarn add bee-queue
+
+        -> lib/Queue.js
+        -> criar diretorio jobs em /app/jobs (armazenar todos os trabalhos em segundo planos)
+        -> criar arquivo do trabalho em segundo plano ex: EnrollmentMail.js (job de envio de email)
+        -> criar config do redis (host and port)
+        -> retornar na controladora do Enrollment e importar a Queue no lugar do Mail
+        -> criar arquivo na raiz 'queue.js' (pq nao roda no mesmo servidor)
+          -> Mudar configuracoes no package.json para poder usar sucrase
+
+
+
 
 ### --> FUNCIONALIDADES DO ALUNO
 

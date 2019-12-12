@@ -6,7 +6,8 @@ import Enrollment from '../models/Enrollment';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
 
-import Mail from '../../lib/Mail';
+import EnrollmentMail from '../jobs/EnrollmentMail';
+import Queue from '../../lib/Queue';
 
 class EnrollmentController {
   async store(req, res) {
@@ -78,18 +79,12 @@ class EnrollmentController {
       price
     });
 
-    // // send email!
-    // await Mail.sendMail({
-    //   to: `${student.name} <${student.email}>`,
-    //   subject: 'Matricula realizada com Sucesso. Bem-vindo(a)!',
-    //   template: 'enrollment',
-    //   context: {
-    //     student: student.name,
-    //     plan: plan.title,
-    //     end_date: format(end_date, "'Dia' dd 'de' MMMM'", { locale: pt }),
-    //     price
-    //   }
-    // });
+    await Queue.add(EnrollmentMail.key, {
+      plan,
+      student,
+      end_date,
+      price
+    });
 
     return res.json(enrollment);
   }
