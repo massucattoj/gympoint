@@ -12,6 +12,7 @@ class PlanController {
       title: Yup.string().required(),
       duration: Yup.number()
         .required()
+        .positive()
         .integer(),
       price: Yup.number().required()
     });
@@ -54,7 +55,9 @@ class PlanController {
      */
     const schema = Yup.object().shape({
       title: Yup.string(),
-      duration: Yup.number().integer(),
+      duration: Yup.number()
+        .integer()
+        .positive(),
       price: Yup.number()
     });
 

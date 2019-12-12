@@ -401,8 +401,27 @@ Instalar Yup -> Biblioteca de Schema Validation
               -> OBS: lembrar de importar o locale/pt e o 'format'
 
 
-
       1.1.3 - Configurando Redis
+
+### --> FUNCIONALIDADES DO ALUNO
+
+  1. Checkins
+
+    1.1 -> Criar um container do mongo para os checkins
+      docker run --name gympoint -p 27017:27017 -d -t mongoD
+
+      -> Adicionar dependencia do mongoose
+        :yarn add mongoose
+
+      ->  Parte de conexa o com o MongoDB tambem e feita no index.js contido no diretorio database
+        Importar mongoose
+        Criar um metodo para conexao com o mongo
+        Chamar o metodo no constructor
+
+    1.2 -> Criar o schema do Checkin
+    1.3 -> Criar Controller para o Checkin com metodo get e post
+
+
 
 
 

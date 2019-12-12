@@ -16,8 +16,12 @@ class EnrollmentController {
 
     // Validation Schema
     const schema = Yup.object().shape({
-      student_id: Yup.number().required(),
-      plan_id: Yup.number().required(),
+      student_id: Yup.number()
+        .positive()
+        .required(),
+      plan_id: Yup.number()
+        .positive()
+        .required(),
       start_date: Yup.date().required()
     });
 

@@ -7,12 +7,17 @@ import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
 import EnrollmentController from './app/controllers/EnrollmentController';
+import CheckInController from './app/controllers/CheckInController';
 
 import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
 routes.post('/sessions', SessionController.store);
+
+// checkins students
+routes.post('/students/:id/checkins', CheckInController.store);
+routes.get('/students/:id/checkins', CheckInController.index);
 
 // rotas que precisam de autenticacao do usuario
 routes.use(authMiddleware);
