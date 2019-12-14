@@ -421,9 +421,6 @@ Instalar Yup -> Biblioteca de Schema Validation
         -> criar arquivo na raiz 'queue.js' (pq nao roda no mesmo servidor)
           -> Mudar configuracoes no package.json para poder usar sucrase
 
-
-
-
 ### --> FUNCIONALIDADES DO ALUNO
 
   1. Checkins
@@ -442,6 +439,11 @@ Instalar Yup -> Biblioteca de Schema Validation
     1.2 -> Criar o schema do Checkin
     1.3 -> Criar Controller para o Checkin com metodo get e post
 
+
+  2. Help Orders
+    1.2 -> Criar o schema do HelpOrders
+    1.3 -> Criar controladora HelpOrders para students criarem a o pedido de auxilio
+    1.4 -> Criar uma controladora para os admins
 
 
 

@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
-import { addMonths, parseISO, isBefore, format } from 'date-fns';
+import { addMonths, parseISO, isBefore } from 'date-fns';
 import { Op } from 'sequelize';
-import pt from 'date-fns/locale/pt';
 import Enrollment from '../models/Enrollment';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
