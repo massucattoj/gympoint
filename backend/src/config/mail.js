@@ -10,3 +10,7 @@ export default {
     from: 'Equipe GymPoint <noreply@gympoint.com>'
   }
 };
+
+/**
+ * deafult : configuracao padrao que sera utilizada para todo o envio de email
+ */

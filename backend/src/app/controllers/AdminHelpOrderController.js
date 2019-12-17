@@ -1,5 +1,10 @@
 import * as Yup from 'yup';
+
 import HelpOrder from '../schemas/HelpOrder';
+import Student from '../models/Student';
+
+import AnswerMail from '../jobs/AnswerMail';
+import Queue from '../../lib/Queue';
 
 class AdminHelpOrderController {
   async index(req, res) {
@@ -24,6 +29,18 @@ class AdminHelpOrderController {
       { answer, answer_at },
       { new: true }
     );
+
+    const student = await Student.findByPk(helpOrders.student_id);
+
+    /**
+     * Send email with answer
+     */
+    await Queue.add(AnswerMail.key, {
+      student,
+      helpOrders,
+      answer,
+      answer_at
+    });
 
     return res.json(helpOrders);
   }

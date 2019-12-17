@@ -445,17 +445,53 @@ Instalar Yup -> Biblioteca de Schema Validation
     1.3 -> Criar controladora HelpOrders para students criarem a o pedido de auxilio
     1.4 -> Criar uma controladora para os admins
 
+    1.5 -> Enviar emails assim que a pergunta foi respondida
+      1.5.1 -> Importar o Mail na controladora do admin, chamar a funcao e passar
+              os parametros corretos
+      1.5.2 -> criar o layout da resposta em /views/emails
+      1.5.3 -> jobs/AnswerMail.js e criar a classe.
+            OBS: Para que nao precise importar os models no AnswerMail, o handle
+            recebe um parametro chamado 'data' que contem os valores a serem utilizados
+      1.5.4 -> Configurar o Queue.js com o novo job.
+      1.5.5 -> Configurar a controladora utilizando a pilha (importar o job e a lib Queue)
 
+### -> Falhas na fila!
 
+  processQueue() {
+    jobs.forEach(job => {
+      const { bee, handle } = this.queues[job.key];
 
+      // bee.process(handle);
+      bee.on('failed', this.handleFailure).process(handle);
+    });
+  }
 
+  handleFailure(job, err) {
+    console.log(`Queue ${job.queue.name}: FAILED`, err);
+  }
 
+### -> TRATAMENTO DE EXCECOES
+ Como saber os erros da aplicacao quando ela vai para producao, por exemplo:
+  - fila
+  - Queries
+  - Banco offline
 
+  -> Configurar Sentry : yarn add @sentry/node@5.10.2
+  -> Importar Sentry no app.js
+  -> Criar uma config para o Sentry /config/sentry.js
+  -> Importar a config do sentry no app.js e confgurar corretamente (primeiro e ultimmo middleware)
 
+  Necessario instalar uma nova extensao, por padrao os erros que acontecem dentro do async, o express (sentry)
+  nao consegue informar
+  : yarn add express-async-errors
 
+  Configurar middleware de tratamento de excecoes (exceptionHandler)
+  Quando um metodo async recebe 4 parametros ele ja entende que eh um metodo para
+  tratamento de excecoes
 
+  : yarn add youch -> tratativa das mensagens de erro
 
-
+  import 'express-async-errors'; Importar antes das rotas
 
 
 
